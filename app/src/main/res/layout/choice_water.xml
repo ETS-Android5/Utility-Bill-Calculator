@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/johor"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="JOHOR"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/kedah"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="KEDAH"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/kelantan"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="KELANTAN"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/melaka"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="MELAKA"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/negeri_sembilan"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="NEGERI SEMBILAN"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/pahang"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="PAHANG"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/penang"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="PENANG"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/perak"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="PERAK"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/perlis"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="PERLIS"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/selangor"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SELANGOR | KUALA LUMPUR | PUTRAJAYA"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/terengganu"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="TERENGGANU"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/sarawak"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SARAWAK"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/kuching"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SARAWAK KUCHING"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/sibu"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SARAWAK SIBU"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/miri"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SARAWAK SRI AMAN | MIRI | LIMBING | SARIKEI | KAPIT"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/bintulu"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SARAWAK BINTULU"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+
+        <TextView
+            android:id="@+id/sabah"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="SABAH"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+        <TextView
+            android:id="@+id/labuan"
+            style="@style/CategoryStyle"
+            android:fontFamily="@font/roboto"
+            android:gravity="center"
+            android:text="LABUAN"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#C7C7C7" />
+
+    </LinearLayout>
+</ScrollView>
