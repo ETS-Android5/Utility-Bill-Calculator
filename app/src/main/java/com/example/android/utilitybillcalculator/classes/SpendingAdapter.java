@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.utilitybillcalculator.R;
+import com.example.android.utilitybillcalculator.entities.Spending;
 
 import java.util.ArrayList;
 
@@ -50,7 +51,7 @@ public class SpendingAdapter extends RecyclerView.Adapter<SpendingAdapter.Spendi
 
         holder.spendingType.setText(currentItem.getType());
         holder.spendingName.setText(currentItem.getName());
-        holder.spendingCost.setText(String.format("%.2f", currentItem.getCost()));
+        holder.spendingCost.setText(String.format("%.2f", currentItem.getPrice()));
         holder.spendingDate.setText(currentItem.getDate());
     }
 

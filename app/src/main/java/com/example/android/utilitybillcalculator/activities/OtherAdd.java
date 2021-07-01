@@ -12,8 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.android.utilitybillcalculator.R;
-import com.example.android.utilitybillcalculator.classes.Spending;
 import com.example.android.utilitybillcalculator.database.DatabaseHelper;
+import com.example.android.utilitybillcalculator.entities.Spending;
 
 public class OtherAdd extends AppCompatActivity {
 
@@ -50,11 +50,11 @@ public class OtherAdd extends AppCompatActivity {
 
         //If no object is stored, set the card to null and 0.00 as the price
         if (spendObj == null) {
-            spendObj = new Spending (null, null, 0.00);
+            spendObj = new Spending(null, null, 0.00);
         }
 
         //Program the type, name and cost of the card at the top of the activity
-        String lastSpendingPrice = String.format("%.2f", spendObj.getCost());
+        String lastSpendingPrice = String.format("%.2f", spendObj.getPrice());
         lastSpendType.setText(spendObj.getType());
         lastSpendName.setText(spendObj.getName());
         lastSpendCost.setText(lastSpendingPrice);
@@ -76,7 +76,7 @@ public class OtherAdd extends AppCompatActivity {
                     }
                     Spending other = new Spending(type, name, cost);
 
-                    boolean success = database.addOne(other);
+                    boolean success = database.addOneSpending(other);
                     Toast.makeText(OtherAdd.this, "Saved", Toast.LENGTH_SHORT).show();
                 } catch (NumberFormatException e) {
                     Toast.makeText(OtherAdd.this, "Invalid Amount!", Toast.LENGTH_SHORT).show();

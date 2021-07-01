@@ -15,8 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.example.android.utilitybillcalculator.R;
-import com.example.android.utilitybillcalculator.classes.Spending;
 import com.example.android.utilitybillcalculator.database.DatabaseHelper;
+import com.example.android.utilitybillcalculator.entities.Spending;
+import com.example.android.utilitybillcalculator.logic.Calculation;
 
 public class CalculatorBill extends AppCompatActivity {
 
@@ -48,6 +49,7 @@ public class CalculatorBill extends AppCompatActivity {
 
         //Database initialization
         final DatabaseHelper databaseHelper = new DatabaseHelper(CalculatorBill.this);
+        Calculation calculation = new Calculation(databaseHelper);
 
         //Intent is declared and used to receive information about which views user clicked on
         final Intent intention = getIntent();
@@ -76,8 +78,8 @@ public class CalculatorBill extends AppCompatActivity {
                 try {
                     String toCalculate = userInputToCalculate.getText().toString();
                     Double toCalculateAmount = Double.parseDouble(toCalculate);
-                    Spending spend = new Spending(toCalculateAmount, type, choice);
-                    String resultDouble = String.format("%.2f", spend.getCost());
+                    Double price = calculation.calculate(type, choice, toCalculateAmount);
+                    String resultDouble = String.format("%.2f", price);
                     resultText.setText(resultDouble);
                 } catch (NumberFormatException e) {
                     Toast.makeText(CalculatorBill.this, "Invalid Amount!", Toast.LENGTH_SHORT).show();
@@ -113,9 +115,10 @@ public class CalculatorBill extends AppCompatActivity {
                                     try {
                                         String toCalculate = userInputToCalculate.getText().toString();
                                         Double toCalculateAmount = Double.parseDouble(toCalculate);
-                                        Spending spend = new Spending(toCalculateAmount, type, choice);
-                                        String resultDouble = String.format("%.2f", spend.getCost());
-                                        boolean success = databaseHelper.addOne(spend);
+                                        Double price = calculation.calculate(type, choice, toCalculateAmount);
+                                        Spending spend = new Spending(type, choice, price);
+                                        String resultDouble = String.format("%.2f", spend.getPrice());
+                                        boolean success = databaseHelper.addOneSpending(spend);
                                         if (success) {
                                             Toast.makeText(CalculatorBill.this, "Saved", Toast.LENGTH_SHORT).show();
                                         }
@@ -140,9 +143,10 @@ public class CalculatorBill extends AppCompatActivity {
                     try {
                         String toCalculate = userInputToCalculate.getText().toString();
                         Double toCalculateAmount = Double.parseDouble(toCalculate);
-                        Spending spend = new Spending(toCalculateAmount, type, choice);
-                        String resultDouble = String.format("%.2f", spend.getCost());
-                        boolean success = databaseHelper.addOne(spend);
+                        Double price = calculation.calculate(type, choice, toCalculateAmount);
+                        Spending spend = new Spending(type, choice, price);
+                        String resultDouble = String.format("%.2f", spend.getPrice());
+                        boolean success = databaseHelper.addOneSpending(spend);
                         if (success) {
                             Toast.makeText(CalculatorBill.this, "Saved", Toast.LENGTH_SHORT).show();
                         }
@@ -167,6 +171,7 @@ public class CalculatorBill extends AppCompatActivity {
         @Override
         public void onClick (View v){
         Intent openTariffRates = new Intent(getApplicationContext(), TariffRates.class);
+        openTariffRates.putExtra("TYPE", type);
         openTariffRates.putExtra("NAME", choice);
         startActivity(openTariffRates);
     }
