@@ -6,10 +6,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import com.example.android.utilitybillcalculator.R;
 import com.example.android.utilitybillcalculator.database.DatabaseHelper;
+import com.example.android.utilitybillcalculator.logic.UpdateBillPrice;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,11 +24,19 @@ public class MainActivity extends AppCompatActivity {
     CardView waterText;
     CardView otherText;
     CardView historyText;
+    UpdateBillPrice updateBillPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DatabaseHelper db = new DatabaseHelper(MainActivity.this);
+
+        // Update bill price.
+        updateBillPrice = new UpdateBillPrice(db);
+        String billUpdatedNotify = updateBillPrice.updateAllBillPrice();
+        Toast.makeText(this, billUpdatedNotify, Toast.LENGTH_SHORT).show();
 
         //Attaching views to layout resources.
         thisMonthSpending = findViewById(R.id.this_month_spending_value);
@@ -33,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         historyText = (CardView) findViewById(R.id.history_choice);
 
         //Set this month spending CardView text to current month spending value from database.
-        DatabaseHelper db = new DatabaseHelper(MainActivity.this);
         Double thisMonthCost = db.getMonthlyCost();
         String formattedThisMonthCost = String.format("%.2f", thisMonthCost);
         thisMonthSpending.setText(formattedThisMonthCost);
@@ -83,4 +95,5 @@ public class MainActivity extends AppCompatActivity {
         String formattedThisMonthCost = String.format("%.2f", thisMonthCost);
         thisMonthSpending.setText(formattedThisMonthCost);
     }
+
 }

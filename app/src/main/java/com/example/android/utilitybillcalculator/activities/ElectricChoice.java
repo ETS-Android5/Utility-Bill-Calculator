@@ -59,7 +59,7 @@ public class ElectricChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent openCalculator = new Intent(getApplicationContext(), CalculatorBill.class);
-                String choice = "Sabah Electric";
+                String choice = "Sabah Electricity";
                 openCalculator.putExtra("NAME", choice);
                 openCalculator.putExtra("TYPE", TYPE);
                 startActivity(openCalculator);

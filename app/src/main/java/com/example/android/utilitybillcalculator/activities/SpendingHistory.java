@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.utilitybillcalculator.R;
-import com.example.android.utilitybillcalculator.classes.Spending;
 import com.example.android.utilitybillcalculator.classes.SpendingAdapter;
 import com.example.android.utilitybillcalculator.database.DatabaseHelper;
+import com.example.android.utilitybillcalculator.entities.Spending;
 
 import java.util.ArrayList;
 import java.util.Collections;

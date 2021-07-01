@@ -231,7 +231,7 @@ public class WaterChoice extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent openCalculator = new Intent(getApplicationContext(), CalculatorBill.class);
-                String choice = "Miri";
+                String choice = "Sri Aman";
                 openCalculator.putExtra("NAME", choice);
                 openCalculator.putExtra("TYPE", TYPE);
                 startActivity(openCalculator);

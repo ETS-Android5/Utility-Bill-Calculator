@@ -7,21 +7,46 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.android.utilitybillcalculator.classes.Spending;
+import com.example.android.utilitybillcalculator.entities.ElectricBill;
+import com.example.android.utilitybillcalculator.entities.Spending;
+import com.example.android.utilitybillcalculator.entities.WaterBill;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    //Constant value declaration
-    public static final String SPENDING_TABLE = "SPENDING_TABLE";
-    public static final String COLUMN_SPENDING_TYPE = "SPENDING_TYPE";
-    public static final String COLUMN_SPENDING_NAME = "SPENDING_NAME";
-    public static final String COLUMN_DATE = "DATE";
-    public static final String COLUMN_TO_CALCULATE = "TO_CALCULATE";
-    public static final String COLUMN_COST = "COST";
     public static final String COLUMN_ID = "ID";
     private static final int DATABASE_VERSION = 2;
+
+    //Constant value declaration for spending table
+    public static final String SPENDING_TABLE = "SPENDING_TABLE";
+    public static final String COLUMN_SPENDING_NAME = "SPENDING_NAME";
+    public static final String COLUMN_SPENDING_TYPE = "SPENDING_TYPE";
+    public static final String COLUMN_SPENDING_DATE = "DATE";
+    public static final String COLUMN_SPENDING_PRICE = "COST";
+
+    // Constant value declaration for price bracket
+    public static final String COLUMN_PRICE_BRACKET_ONE = "PRICE_BRACKET_ONE";
+    public static final String COLUMN_PRICE_BRACKET_TWO = "PRICE_BRACKET_TWO";
+    public static final String COLUMN_PRICE_BRACKET_THREE = "PRICE_BRACKET_THREE";
+    public static final String COLUMN_PRICE_BRACKET_FOUR = "PRICE_BRACKET_FOUR";
+    public static final String COLUMN_PRICE_BRACKET_FIVE = "PRICE_BRACKET_FIVE";
+    public static final String COLUMN_PRICE_BRACKET_SIX = "PRICE_BRACKET_SIX";
+    public static final String COLUMN_PRICE_BRACKET_SEVEN = "PRICE_BRACKET_SEVEN";
+    public static final String COLUMN_PRICE_BRACKET_EIGHT = "PRICE_BRACKET_EIGHT";
+    public static final String COLUMN_PRICE_BRACKET_NINE = "PRICE_BRACKET_NINE";
+    public static final String COLUMN_PRICE_BRACKET_TEN = "PRICE_BRACKET_TEN";
+    public static final String COLUMN_PRICE_BRACKET_ELEVEN = "PRICE_BRACKET_ELEVEN";
+
+    // Constant value declaration for electric bill table
+    public static final String ELECTRIC_TABLE = "ELECTRIC_TABLE";
+    public static final String COLUMN_ELECTRIC_NAME = "ELECTRIC_NAME";
+
+    // Constant value declaration for water bill table
+    public static final String WATER_TABLE = "WATER_TABLE";
+    public static final String COLUMN_WATER_NAME = "WATER_NAME";
 
     private static final String TAG = "DatabaseHelper";
 
@@ -32,26 +57,78 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Create the database
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + SPENDING_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_SPENDING_TYPE + " TEXT, " + COLUMN_SPENDING_NAME + " TEXT, " + COLUMN_DATE + " TEXT, " + COLUMN_TO_CALCULATE + " INT, " + COLUMN_COST + " INT) ";
-        db.execSQL(createTableStatement);
+        String createSpendingTableStatement = "CREATE TABLE " + SPENDING_TABLE
+                                                + " ("
+                                                + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                                + COLUMN_SPENDING_TYPE + " TEXT, "
+                                                + COLUMN_SPENDING_NAME + " TEXT, "
+                                                + COLUMN_SPENDING_DATE + " TEXT, "
+                                                + COLUMN_SPENDING_PRICE + " INT) ";
+        String createElectricTableStatement = "CREATE TABLE " + ELECTRIC_TABLE
+                                                + " ("
+                                                + COLUMN_ID + " INTEGER PRIMARY KEY, "
+                                                + COLUMN_ELECTRIC_NAME + " TEXT, "
+                                                + COLUMN_PRICE_BRACKET_ONE + " INT, "
+                                                + COLUMN_PRICE_BRACKET_TWO + " INT, "
+                                                + COLUMN_PRICE_BRACKET_THREE + " INT, "
+                                                + COLUMN_PRICE_BRACKET_FOUR + " INT, "
+                                                + COLUMN_PRICE_BRACKET_FIVE + " INT, "
+                                                + COLUMN_PRICE_BRACKET_SIX + " INT, "
+                                                + COLUMN_PRICE_BRACKET_SEVEN + " INT, "
+                                                + COLUMN_PRICE_BRACKET_EIGHT + " INT, "
+                                                + COLUMN_PRICE_BRACKET_NINE + " INT, "
+                                                + COLUMN_PRICE_BRACKET_TEN + " INT, "
+                                                + COLUMN_PRICE_BRACKET_ELEVEN + " INT) ";
+        String createWaterTableStatement = "CREATE TABLE " + WATER_TABLE
+                                            + " ("
+                                            + COLUMN_ID + " INTEGER PRIMARY KEY, "
+                                            + COLUMN_WATER_NAME + " TEXT, "
+                                            + COLUMN_PRICE_BRACKET_ONE + " INT, "
+                                            + COLUMN_PRICE_BRACKET_TWO + " INT, "
+                                            + COLUMN_PRICE_BRACKET_THREE + " INT, "
+                                            + COLUMN_PRICE_BRACKET_FOUR + " INT, "
+                                            + COLUMN_PRICE_BRACKET_FIVE + " INT, "
+                                            + COLUMN_PRICE_BRACKET_SIX + " INT, "
+                                            + COLUMN_PRICE_BRACKET_SEVEN + " INT) ";
+        db.execSQL(createSpendingTableStatement);
+        db.execSQL(createElectricTableStatement);
+        db.execSQL(createWaterTableStatement);
+
+        /*
+        Code below is to initialize all bill prices id so that it can be updated according to its id.
+        For this application, once the main activity is created, the application call the
+        updateWaterBillPrice and updateElectricBillPrice below so the value of the id has to be initialized.
+         */
+        ContentValues cv = new ContentValues();
+
+        for(int i = 1; i <= 3; i++) {
+            cv.put(COLUMN_ID, i);
+            db.insert(ELECTRIC_TABLE, null, cv);
+        }
+
+        for(int j = 1; j <= 18; j++) {
+            cv.put(COLUMN_ID, j);
+            db.insert(WATER_TABLE, null, cv);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SPENDING_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + ELECTRIC_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + WATER_TABLE);
         onCreate(db);
     }
 
-    public boolean addOne(Spending spending) {
+    public boolean addOneSpending(Spending spending) {
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COLUMN_SPENDING_TYPE, spending.getType());
         cv.put(COLUMN_SPENDING_NAME, spending.getName());
-        cv.put(COLUMN_DATE, spending.getDate());
-        cv.put(COLUMN_TO_CALCULATE, spending.getToCalculate());
-        cv.put(COLUMN_COST, spending.getCost());
+        cv.put(COLUMN_SPENDING_TYPE, spending.getType());
+        cv.put(COLUMN_SPENDING_DATE, spending.getDate());
+        cv.put(COLUMN_SPENDING_PRICE, spending.getPrice());
 
         long insert = db.insert(SPENDING_TABLE, null, cv);
 
@@ -71,7 +148,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Spending spending = new Spending(cursor.getString(1), cursor.getString(2), cursor.getDouble(5), cursor.getString(3));
+                Spending spending = new Spending(cursor.getString(1),
+                                                cursor.getString(2),
+                                                cursor.getDouble(4),
+                                                cursor.getString(3));
                 spendingList.add(spending);
             } while (cursor.moveToNext());
         }
@@ -80,7 +160,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return spendingList;
-
     }
 
     public ArrayList<Spending> getElectricSpending() {
@@ -92,7 +171,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Spending spending = new Spending(cursor.getString(1), cursor.getString(2), cursor.getDouble(5), cursor.getString(3));
+                Spending spending = new Spending(cursor.getString(1),
+                                                cursor.getString(2),
+                                                cursor.getDouble(4),
+                                                cursor.getString(3));
                 spendingList.add(spending);
             } while (cursor.moveToNext());
         }
@@ -112,7 +194,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                Spending spending = new Spending(cursor.getString(1), cursor.getString(2), cursor.getDouble(5), cursor.getString(3));
+                Spending spending = new Spending(cursor.getString(1),
+                                                cursor.getString(2),
+                                                cursor.getDouble(4),
+                                                cursor.getString(3));
                 spendingList.add(spending);
             } while (cursor.moveToNext());
         }
@@ -124,9 +209,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getMonthlyCost() {
+
         Double sum = 0.0;
 
-        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_DATE + " BETWEEN " + COLUMN_DATE + "('now','start of month') AND '" + COLUMN_DATE + "(now)'";
+        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_DATE + " BETWEEN " + COLUMN_SPENDING_DATE + "('now','start of month') AND '" + COLUMN_SPENDING_DATE + "(now)'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -134,7 +220,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             do {
 
-                sum += cursor.getDouble(5);
+                sum += cursor.getDouble(4);
 
             } while (cursor.moveToNext());
 
@@ -148,6 +234,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getLastElectricCost() {
+
         Double electricCost = 0.0;
 
         String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " = " + "'Electric'";
@@ -155,7 +242,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToLast()) {
-            electricCost = cursor.getDouble(5);
+            electricCost = cursor.getDouble(4);
         }
 
         db.close();
@@ -166,6 +253,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getLastWaterCost() {
+
         Double waterCost = 0.0;
 
         String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " = " + "'Water'";
@@ -173,7 +261,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToLast()) {
-            waterCost = cursor.getDouble(5);
+            waterCost = cursor.getDouble(4);
         }
 
         db.close();
@@ -184,6 +272,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Spending getLastRecord() {
+
         Spending spendObject = null;
 
         String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_ID + " = (SELECT MAX(" + COLUMN_ID + ") FROM " + SPENDING_TABLE + ");";
@@ -191,7 +280,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToLast()) {
-            spendObject = new Spending(cursor.getString(1), cursor.getString(2), cursor.getDouble(5));
+            spendObject = new Spending(cursor.getDouble(4),
+                                        cursor.getString(1),
+                                        cursor.getString(2));
         }
 
         db.close();
@@ -201,6 +292,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getAverageElectricCost() {
+
         double sum = 0.0;
         double average = 0.0;
         int count = 0;
@@ -211,7 +303,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                sum += cursor.getDouble(5);
+                sum += cursor.getDouble(4);
                 count++;
             } while (cursor.moveToNext());
         }
@@ -228,6 +320,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getAverageWaterCost() {
+
         double sum = 0.0;
         double average = 0.0;
         int count = 0;
@@ -238,7 +331,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                sum += cursor.getDouble(5);
+                sum += cursor.getDouble(4);
                 count++;
             } while (cursor.moveToNext());
         }
@@ -254,34 +347,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return average;
     }
 
-    public Double getAverageSpending() {
-        double sum = 0.0;
-        double average = 0.0;
-        int count = 0;
-
-        String queryString = "SELECT * FROM " + SPENDING_TABLE;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(queryString, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                sum += cursor.getDouble(5);
-                count++;
-            } while (cursor.moveToNext());
-        }
-
-        db.close();
-        cursor.close();
-
-        if (sum == 0.0) {
-            return 0.00;
-        }
-
-        average = (double) sum / count;
-        return average;
-    }
 
     public Double getAverageSpendingWithoutBills() {
+
         double sum = 0.0;
         double average = 0.0;
         int count = 0;
@@ -292,7 +360,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                sum += cursor.getDouble(5);
+                sum += cursor.getDouble(4);
                 count++;
             } while (cursor.moveToNext());
         }
@@ -309,9 +377,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getLastMonthSpendingWithoutBills() {
+
         double sum = 0.0;
 
-        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_DATE + " BETWEEN " + COLUMN_DATE + "('now', 'start of month', '-1 month') AND " + COLUMN_DATE + "('now', 'start of month', '-1 day')";
+        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_DATE + " BETWEEN " + COLUMN_SPENDING_DATE + "('now', 'start of month', '-1 month') AND " + COLUMN_SPENDING_DATE + "('now', 'start of month', '-1 day')";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -332,9 +401,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkElectricBillSaved() {
+
         boolean checked = false;
 
-        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Electric%' AND " + COLUMN_DATE + " BETWEEN " + COLUMN_DATE + "('now','start of month') AND '" + COLUMN_DATE + "(now)'";
+        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Electric%' AND " + COLUMN_SPENDING_DATE + " BETWEEN " + COLUMN_SPENDING_DATE + "('now','start of month') AND '" + COLUMN_SPENDING_DATE + "(now)'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -351,9 +421,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean checkWaterBillSaved() {
+
         boolean checked = false;
 
-        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Water%' AND " + COLUMN_DATE + " BETWEEN " + COLUMN_DATE + "('now','start of month') AND '" + COLUMN_DATE + "(now)'";
+        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Water%' AND " + COLUMN_SPENDING_DATE + " BETWEEN " + COLUMN_SPENDING_DATE + "('now','start of month') AND '" + COLUMN_SPENDING_DATE + "(now)'";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -368,14 +439,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Double getLastMonthElectricBill() {
+
         Double bill = 0.0;
 
-        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Electric%' AND " + COLUMN_DATE + " BETWEEN " + COLUMN_DATE + "('now', 'start of month', '-1 month') AND " + COLUMN_DATE + "('now', 'start of month', '-1 day')";
+        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Electric%' AND " + COLUMN_SPENDING_DATE + " BETWEEN " + COLUMN_SPENDING_DATE + "('now', 'start of month', '-1 month') AND " + COLUMN_SPENDING_DATE + "('now', 'start of month', '-1 day')";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToLast()) {
-            bill = cursor.getDouble(5);
+            bill = cursor.getDouble(4);
         }
 
         db.close();
@@ -386,7 +458,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Double getLastMonthWaterBill() {
         Double bill = 0.0;
 
-        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Water%' AND " + COLUMN_DATE + " BETWEEN " + COLUMN_DATE + "('now', 'start of month', '-1 month') AND " + COLUMN_DATE + "('now', 'start of month', '-1 day')";
+        String queryString = "SELECT * FROM " + SPENDING_TABLE + " WHERE " + COLUMN_SPENDING_TYPE + " LIKE '%Water%' AND " + COLUMN_SPENDING_DATE + " BETWEEN " + COLUMN_SPENDING_DATE + "('now', 'start of month', '-1 month') AND " + COLUMN_SPENDING_DATE + "('now', 'start of month', '-1 day')";
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(queryString, null);
 
@@ -399,4 +471,101 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return bill;
     }
 
+    //Both update bill price code below uses id to update its value.
+
+    public String updateElectricBillPrice(@NotNull ElectricBill electricBill) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String id = String.valueOf(electricBill.getId());
+
+        cv.put(COLUMN_ELECTRIC_NAME, electricBill.getBillName());
+        cv.put(COLUMN_PRICE_BRACKET_ONE, electricBill.getPriceBracketOne());
+        cv.put(COLUMN_PRICE_BRACKET_TWO, electricBill.getPriceBracketTwo());
+        cv.put(COLUMN_PRICE_BRACKET_THREE, electricBill.getPriceBracketThree());
+        cv.put(COLUMN_PRICE_BRACKET_FOUR, electricBill.getPriceBracketFour());
+        cv.put(COLUMN_PRICE_BRACKET_FIVE, electricBill.getPriceBracketFive());
+        cv.put(COLUMN_PRICE_BRACKET_SIX, electricBill.getPriceBracketSix());
+        cv.put(COLUMN_PRICE_BRACKET_SEVEN, electricBill.getPriceBracketSeven());
+        cv.put(COLUMN_PRICE_BRACKET_EIGHT, electricBill.getPriceBracketEight());
+        cv.put(COLUMN_PRICE_BRACKET_NINE, electricBill.getPriceBracketNine());
+        cv.put(COLUMN_PRICE_BRACKET_TEN, electricBill.getPriceBracketTen());
+        cv.put(COLUMN_PRICE_BRACKET_ELEVEN, electricBill.getPriceBracketEleven());
+
+        long update = db.update(ELECTRIC_TABLE, cv, "ID = ?", new String[]{id});
+        if (update == -1) {
+            return "Value of: " + electricBill.getBillName() + " updated";
+        } else {
+            return "Update failed";
+        }
+    }
+
+    public String updateWaterBillPrice(@NotNull WaterBill waterBill) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        String id = String.valueOf(waterBill.getId());
+
+        cv.put(COLUMN_WATER_NAME, waterBill.getName());
+        cv.put(COLUMN_PRICE_BRACKET_ONE, waterBill.getPriceBracketOne());
+        cv.put(COLUMN_PRICE_BRACKET_TWO, waterBill.getPriceBracketTwo());
+        cv.put(COLUMN_PRICE_BRACKET_THREE, waterBill.getPriceBracketThree());
+        cv.put(COLUMN_PRICE_BRACKET_FOUR, waterBill.getPriceBracketFour());
+        cv.put(COLUMN_PRICE_BRACKET_FIVE, waterBill.getPriceBracketFive());
+        cv.put(COLUMN_PRICE_BRACKET_SIX, waterBill.getPriceBracketSix());
+        cv.put(COLUMN_PRICE_BRACKET_SEVEN, waterBill.getPriceBracketSeven());
+
+        long update = db.update(WATER_TABLE, cv, "ID = ?", new String[]{id});
+        if (update == -1) {
+            return "Value of: " + waterBill.getName() + " updated";
+        } else {
+            return "Update failed";
+        }
+    }
+
+    public ElectricBill getElectricBill(String name) {
+
+        ElectricBill electricBill = null;
+
+        String queryString = "SELECT * FROM " + ELECTRIC_TABLE + " WHERE " + COLUMN_ELECTRIC_NAME + " = '" + name + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToLast()) {
+            electricBill = new ElectricBill(cursor.getString(1), cursor.getDouble(2),
+                                            cursor.getDouble(3), cursor.getDouble(4),
+                                            cursor.getDouble(5), cursor.getDouble(6),
+                                            cursor.getDouble(7), cursor.getDouble(8),
+                                            cursor.getDouble(9), cursor.getDouble(10),
+                                            cursor.getDouble(11), cursor.getDouble(12));
+        }
+
+        db.close();
+        cursor.close();
+
+        return electricBill;
+    }
+
+    public WaterBill getWaterBill(String name) {
+
+        WaterBill waterBill = null;
+
+        String queryString = "SELECT * FROM " + WATER_TABLE + " WHERE " + COLUMN_WATER_NAME + " = '" + name + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+
+        if (cursor.moveToLast()) {
+            waterBill = new WaterBill(cursor.getString(1), cursor.getDouble(2),
+                                    cursor.getDouble(3), cursor.getDouble(4),
+                                    cursor.getDouble(5), cursor.getDouble(6),
+                                    cursor.getDouble(7), cursor.getDouble(8));
+        }
+
+        db.close();
+        cursor.close();
+
+        return waterBill;
+    }
 }
