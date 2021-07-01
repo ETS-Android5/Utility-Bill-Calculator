@@ -49,6 +49,8 @@ public class CalculatorBill extends AppCompatActivity {
 
         //Database initialization
         final DatabaseHelper databaseHelper = new DatabaseHelper(CalculatorBill.this);
+
+        // Calculation object creation
         Calculation calculation = new Calculation(databaseHelper);
 
         //Intent is declared and used to receive information about which views user clicked on
@@ -70,6 +72,15 @@ public class CalculatorBill extends AppCompatActivity {
             lastMonthText.setText("Last saved water bill");
             userInputToCalculate.setHint("M³");
         }
+
+        /*
+        Each calculation is calculated using the calculation object. The type, choice and toCalculate
+        amount is passed to the parameter. The object returns the price in Double.
+        The price is then either shown directly to the UI using TextView or if saving is required,
+        a Spending object will be created and the type, choice and the price is passed to the parameter
+        during its construction. The spending object is then saved passed to the database helper object
+        to save its value.
+         */
 
         calculateButton.setOnClickListener(new View.OnClickListener() {
             //This onClick method is used to receive and shows calculated user input values.

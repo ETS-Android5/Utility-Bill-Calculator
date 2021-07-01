@@ -20,6 +20,7 @@ public class UpdateBillPrice extends Application {
         this.dbHelper = dbHelper;
     }
 
+    // Made this helper method to update all bill prices at once in the main activity.
     public String updateAllBillPrice() {
         int i = 0;
         i += updateTenagaNasional();
@@ -44,12 +45,22 @@ public class UpdateBillPrice extends Application {
         i += updateSabahWater();
         i += updateLabuanWater();
 
+        // Used the int returned from each method to return update status to the main activity.
         if(i <= 21) {
             return "Bill price updated!";
         } else {
             return "Something went wrong";
         }
     }
+
+    /*
+    All bill prices are updated seperately.
+    Jackson is used to convert JSON to POJO.
+    Each update method returns an int.
+    If the int returned is 0, the connection failed.
+    If the int returned is 1, the update succeed.
+    If the int returned is 3, something else went wrong.
+     */
 
     public int updateTenagaNasional() {
 

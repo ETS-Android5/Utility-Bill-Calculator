@@ -14,11 +14,18 @@ public class Calculation extends Application {
         this.dbHelper = dbHelper;
     }
 
+    /*
+    Type is retrieved using Intent in Calculator Bill class.
+    Name is also retrieved using Intent in Calculator Bill class.
+    amountToCalculate is retrieved from EditText in Calculator Bill class.
+     */
     public double calculate(String type, String name, double amountToCalculate) {
 
         Double result = 0.0;
+
         if (type.equals("Electric")) {
 
+            // Retrieve an ElectricBill object from database
             ElectricBill electricBill = dbHelper.getElectricBill(name);
             Double firstBracket = electricBill.getPriceBracketOne();
             Double secondBracket = electricBill.getPriceBracketTwo();
@@ -33,6 +40,7 @@ public class Calculation extends Application {
             Double eleventhBracket = electricBill.getPriceBracketEleven();
             Double tax = 0.0;
 
+            // Calculation logic
             if (name.equals("Tenaga Nasional")) {
                 if (amountToCalculate < 1) {
                     result = firstBracket;
@@ -130,6 +138,7 @@ public class Calculation extends Application {
             }
         } else if (type.equals("Water")) {
 
+            // If type chosen is water, retrieve Water Bill object from database
             WaterBill waterBill = dbHelper.getWaterBill(name);
             Double firstBracket = waterBill.getPriceBracketOne();
             Double secondBracket = waterBill.getPriceBracketTwo();
@@ -141,6 +150,7 @@ public class Calculation extends Application {
             Double balance = 0.0;
             Double surcharge = 0.0;
 
+            // Water bill calculation logic
             if (name.equals("Johor")) {
                 if (amountToCalculate > 0 && amountToCalculate <= 20) {
                     result += (amountToCalculate * secondBracket);

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseHelper db = new DatabaseHelper(MainActivity.this);
 
-        // Update bill price
+        // Update bill price.
         updateBillPrice = new UpdateBillPrice(db);
         String billUpdatedNotify = updateBillPrice.updateAllBillPrice();
         Toast.makeText(this, billUpdatedNotify, Toast.LENGTH_SHORT).show();

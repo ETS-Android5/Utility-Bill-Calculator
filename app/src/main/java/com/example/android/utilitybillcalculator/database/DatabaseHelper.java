@@ -94,6 +94,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createElectricTableStatement);
         db.execSQL(createWaterTableStatement);
 
+        /*
+        Code below is to initialize all bill prices id so that it can be updated according to its id.
+        For this application, once the main activity is created, the application call the
+        updateWaterBillPrice and updateElectricBillPrice below so the value of the id has to be initialized.
+         */
         ContentValues cv = new ContentValues();
 
         for(int i = 1; i <= 3; i++) {
@@ -465,6 +470,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return bill;
     }
+
+    //Both update bill price code below uses id to update its value.
 
     public String updateElectricBillPrice(@NotNull ElectricBill electricBill) {
 

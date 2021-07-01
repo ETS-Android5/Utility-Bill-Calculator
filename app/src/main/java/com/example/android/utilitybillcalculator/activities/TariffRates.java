@@ -72,7 +72,6 @@ public class TariffRates extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rates_tariff);
 
-
         //Attaching view component to layout resources
         minimumChargeCost = findViewById(R.id.minimum_charge_cost);
 
@@ -127,6 +126,7 @@ public class TariffRates extends AppCompatActivity {
 
         if (type.equals("Electric")) {
 
+            // If the type is Electric, an ElectricBill object is created using values from database.
             ElectricBill electricBill = dbHelper.getElectricBill(choice);
             String firstBracket = String.valueOf(electricBill.getPriceBracketOne());
             String secondBracket = String.valueOf(electricBill.getPriceBracketTwo());
@@ -235,6 +235,7 @@ public class TariffRates extends AppCompatActivity {
             }
         } else if (type.equals("Water")) {
 
+            // If the type is Water, an WaterBill object is created using values from database.
             WaterBill waterBill = dbHelper.getWaterBill(choice);
             String firstBracket = String.valueOf(waterBill.getPriceBracketOne());
             String secondBracket = String.valueOf(waterBill.getPriceBracketTwo());
