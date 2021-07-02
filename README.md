@@ -1,5 +1,5 @@
 # Utility Bill Calculator
-This was my University final year project. The logic has been rewritten and the app is now connected to my back-end which retrieves latest bill prices.
+This was my University final year project. The logic has been rewritten and the app is now connected to my back-end which retrieves latest bill prices.  
 The project is a utility bill calculator that can be used as a financial planning application. It calculates Malaysia bill prices using their native value.
 
 # Library Used Other Than From Android
