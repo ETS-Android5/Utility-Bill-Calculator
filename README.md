@@ -9,7 +9,8 @@ The project is a utility bill calculator that can be used as a financial plannin
 # How to connect to the back end
 1. Download, modify the application.properties according to the instruction and run the main application here https://github.com/Fariz-01/MalaysiaBillPriceAPI
 2. In the logic package, there is an UpdateBillPrice class, change the ip address in the
-``` client.get("YourIpGoesHere/api/electric|water/id", new TextHttpResponseHandler() {code} )
+```
+client.get("YourIpGoesHere/api/electric|water/id", new TextHttpResponseHandler() {code} )
 ```
 to your local ip address.
 4. All api endpoints can be viewed in the README here https://github.com/Fariz-01/MalaysiaBillPriceAPI
