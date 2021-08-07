@@ -2,8 +2,8 @@
 This was my University final year project. The logic has been rewritten and the app is now connected to my back-end which retrieves latest bill prices.  
 The project is a utility bill calculator that can be used as a financial planning application. It calculates Malaysia bill prices using their native value.
 
-# Library Used Other Than From Android
-1. Jackson (Convert JSON to POJO)
+# Libraries
+1. Jackson (JSON to POJO)
 2. Android Async HTTP (HTTP connection library)
 
 # How to connect to the back end
@@ -12,7 +12,5 @@ The project is a utility bill calculator that can be used as a financial plannin
 ```
 client.get("YourIpGoesHere/api/electric|water/id", new TextHttpResponseHandler() {code} )
 ```
-
-
 All api endpoints can be viewed in the README here https://github.com/Fariz-01/MalaysiaBillPriceAPI
 
